@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION " 3.19.2")
+
+project(OpenGL) 
+set(CMAKE_CXX_STANDARD 17)
+
+set(LIBS_DIR ${PROJECT_SOURCE_DIR}/libraries)
+
+file(GLOB MAIN_SRC 
+     ${PROJECT_SOURCE_DIR}/main/src/*
+)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(${LIBS_DIR}/glfw-3.3.9)
+add_subdirectory(${LIBS_DIR}/glad)
+
+add_executable(OpenGL "${PROJECT_SOURCE_DIR}/main/src/main.cpp" ${MAIN_SRC}/)
+
+target_link_libraries(OpenGL glfw glad)
+
+target_include_directories(OpenGL 
+    PRIVATE ${PROJECT_SOURCE_DIR}/main/include 
+    PRIVATE ${LIBS_DIR}/glfw-3.3.9/include
+    PRIVATE ${LIBS_DIR}/glad/include
+)
